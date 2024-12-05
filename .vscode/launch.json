@@ -59,6 +59,44 @@
             // "cwd": "${workspaceFolder}/taichi_decoupled"
         },
         {
+            "name": "eval_cullmesh",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/eval_2dgs/eval_dtu/evaluate_single_scene.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/surfel_splatting/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--input_mesh","output/scan24_2dgs/train/ours_30000/fuse_post.ply",
+                    "--scan_id","24",
+                    "--output_dir","eval_2dgs/eval_data/scan24",
+                    "--mask_dir","data/DTU",
+                    "--DTU","data/DTU"]
+            // "cwd": "${workspaceFolder}/taichi_decoupled"
+        },
+        {
+            "name": "eval_final",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/eval_2dgs/eval_dtu/eval.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/gsdf/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--data","eval_2dgs/eval_data/culled_mesh.ply",
+                    "--scan","24",
+                    "--mode",
+                    "mesh",
+                    "--dataset_dir","data/DTU",
+                    "--vis_out_dir","eval_2dgs/vis"]
+            
+            // "args": ["--data","eval/dtu/scan24/point_cloud/iteration_30000/point_cloud.ply",
+            //         "--scan","24",
+            //         "--mode",
+            //         "pcd",
+            //         "--dataset_dir","/home/zhaoyibin/3DRE/3DGS/GSDF/data/DTU",
+            //         "--vis_out_dir","/home/zhaoyibin/3DRE/3DGS/2d-gaussian-splatting/scripts/tmp/scan24"]
+                    // "cwd": "${workspaceFolder}/taichi_decoupled"
+        },
+        {
             "name": "test",
             "type": "python",
             "request": "launch",
@@ -68,6 +106,6 @@
             "justMyCode": true,
             "args": []
             // "cwd": "${workspaceFolder}/taichi_decoupled"
-        }
+        },
     ]
 }
