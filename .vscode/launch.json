@@ -1,0 +1,73 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "train",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/launch.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/gsdf/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["--exp_dir",
+                    "exp",
+                    "--config",
+                    "configs/dtu/scan37.yaml",
+                    "--gpu","0",
+                    "--train",
+                    "--eval",
+                    "tag=scan37",
+                    // "--resume","output/scan65/point_cloud/iteration_15000/checkpoint.pth","--resume_weights_only"
+                ]
+            // "cwd": "${workspaceFolder}/taichi_decoupled"
+        },
+        {
+            "name": "render",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/render.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/gsdf/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-m","output/scan37_sparse",
+                    "--config","configs/dtu/scan37.yaml"]
+            // "cwd": "${workspaceFolder}/taichi_decoupled"
+        },
+        {
+            "name": "metrics",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/metrics.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/gsdf/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-m","output/own_DTU_scan37"]
+            // "cwd": "${workspaceFolder}/taichi_decoupled"
+        },
+        {
+            "name": "trans_ply",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/zyb_tools/trans_ply.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/gsdf/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": []
+            // "cwd": "${workspaceFolder}/taichi_decoupled"
+        },
+        {
+            "name": "test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/zyb_tools/test.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/gsdf/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": []
+            // "cwd": "${workspaceFolder}/taichi_decoupled"
+        }
+    ]
+}

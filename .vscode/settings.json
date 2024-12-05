@@ -1,0 +1,6 @@
+{
+    "ros.distro": "noetic",
+    "python.analysis.extraPaths": [
+        "./gaussian_splatting"
+    ]
+}

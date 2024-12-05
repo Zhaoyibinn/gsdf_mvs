@@ -273,7 +273,9 @@ class ColmapDatasetBase():
         for k, v in ColmapDatasetBase.properties.items():
             setattr(self, k, v)
 
-        
+        # self.all_images = [tensor.to('cpu') for tensor in self.all_images]
+        # self.all_fg_masks = [tensor.to('cpu') for tensor in self.all_fg_masks]
+
         self.all_images, self.all_fg_masks = torch.stack(self.all_images, dim=0).float(), torch.stack(self.all_fg_masks, dim=0).float()
 
         """

@@ -149,7 +149,9 @@ class NeuSSystem(BaseSystem):
     def __init__(self, config):
         super().__init__(config)
         self.current_epoch_set=0
-        self.pretrain_step = 15000
+        self.pretrain_step = 1000
+        # self.pretrain_step = 15000
+        # 这里手动修改了pretrain的步数，测试MVS快速初始化
         self.geometry_awared_control = False
 
         if self.config.model.if_gaussian:
@@ -163,8 +165,8 @@ class NeuSSystem(BaseSystem):
             parser.add_argument('--port', type=int, default=6009)
             parser.add_argument('--debug_from', type=int, default=-1)
             parser.add_argument('--detect_anomaly', action='store_true', default=False)
-            parser.add_argument("--test_iterations", nargs="+", type=int, default=[self.pretrain_step,self.pretrain_step+15000, self.pretrain_step+30000,self.pretrain_step+100000])
-            parser.add_argument("--save_iterations", nargs="+", type=int, default=[self.pretrain_step,self.pretrain_step+15000, self.pretrain_step+30000,self.pretrain_step+100000])
+            parser.add_argument("--test_iterations", nargs="+", type=int, default=[self.pretrain_step,self.pretrain_step+500,self.pretrain_step+7000,self.pretrain_step+10000,self.pretrain_step+15000, self.pretrain_step+30000,self.pretrain_step+100000])
+            parser.add_argument("--save_iterations", nargs="+", type=int, default=[self.pretrain_step,self.pretrain_step+500,self.pretrain_step+7000,self.pretrain_step+10000,self.pretrain_step+15000, self.pretrain_step+30000,self.pretrain_step+100000])
             parser.add_argument("--quiet", action="store_true")
             parser.add_argument("--checkpoint_iterations", nargs="+", type=int, default=[])
             parser.add_argument("--start_checkpoint", type=str, default = None)
@@ -208,7 +210,10 @@ class NeuSSystem(BaseSystem):
             self.last_iteration_time=0
             #Using a pretrained Scaffold-GS
             if self.config.model.using_pretrain:
-                self.scene = Scene(self.lp, self.gaussians, load_iteration=15000, shuffle=False, if_pretrain=self.config.model.using_pretrain,pretrain_path=self.config.model.using_pretrain_path,given_scale=self.config.dataset.neuralangelo_scale,given_center=self.config.dataset.neuralangelo_center)
+                try:
+                    self.scene = Scene(self.lp, self.gaussians, load_iteration=1000, shuffle=False, if_pretrain=self.config.model.using_pretrain,pretrain_path=self.config.model.using_pretrain_path,given_scale=self.config.dataset.neuralangelo_scale,given_center=self.config.dataset.neuralangelo_center)
+                except:
+                    self.scene = Scene(self.lp, self.gaussians, load_iteration=15000, shuffle=False, if_pretrain=self.config.model.using_pretrain,pretrain_path=self.config.model.using_pretrain_path,given_scale=self.config.dataset.neuralangelo_scale,given_center=self.config.dataset.neuralangelo_center)
                 self.gaussians.training_setup(self.op)
                 self.gaussians.update_learning_rate(15000)
                 self.progress_bar = tqdm(range(15000, self.op.iterations), desc="Training progress")

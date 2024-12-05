@@ -113,6 +113,7 @@ class VanillaMLP(nn.Module):
         self.output_activation = get_activation(config['output_activation'])
     
     @torch.cuda.amp.autocast(False)
+    # zyb标记，这里把amp开了
     def forward(self, x):
         x = self.layers(x.float())
         x = self.output_activation(x)
