@@ -3,8 +3,8 @@ import numpy as np
 import open3d as o3d
 
 
-path = "data/DTU/scan97/sparse/0/points3D_MVS_origin.ply"
-path_trans = "data/DTU/scan97/sparse/0/points3D_MVS.ply"
+path = "data/DTU/scan24/sparse/0/points3D_MVS_origin.ply"
+path_trans = "data/DTU/scan24/sparse/0/points3D_MVS.ply"
 plydata = PlyData.read(path)
 xyz = np.stack((np.asarray(plydata.elements[0]["x"]),
                         np.asarray(plydata.elements[0]["y"]),

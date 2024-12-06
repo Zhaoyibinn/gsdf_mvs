@@ -17,6 +17,8 @@ import sys
 import render_utils as rend_util
 from tqdm import tqdm
 
+import eval
+
 def cull_scan(scan, mesh_path, result_mesh_file, instance_dir):
     
     # load poses
@@ -106,6 +108,7 @@ def cull_scan(scan, mesh_path, result_mesh_file, instance_dir):
     scale_mat = scale_mats[0]
     mesh.vertices = mesh.vertices * scale_mat[0, 0] + scale_mat[:3, 3][None]
     mesh.export(result_mesh_file)
+    # mask + RT变化对齐到stl
     del mesh
     
 
@@ -133,7 +136,15 @@ if __name__ == "__main__":
     cull_scan(scan, ply_file, result_mesh_file, instance_dir=os.path.join(args.mask_dir, f'scan{args.scan_id}'))
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
+
     cmd = f"/home/zhaoyibin/anaconda3/envs/surfel_splatting/bin/python {script_dir}/eval.py --data {result_mesh_file} --scan {scan} --mode pcd --dataset_dir {Offical_DTU_Dataset} --vis_out_dir {out_dir}"
+    
+    class Args:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+    args_eval = Args(data=f"{result_mesh_file}", scan=int(scan),mode=f"pcd",dataset_dir=f"{Offical_DTU_Dataset}",vis_out_dir=f"{out_dir}")
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     print(cmd)
-    os.system(cmd)
+    # os.system(cmd)
+    eval.main_eval(args_eval)

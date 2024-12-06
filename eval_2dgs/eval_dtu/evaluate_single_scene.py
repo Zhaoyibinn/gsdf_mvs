@@ -17,6 +17,8 @@ import sys
 import render_utils as rend_util
 from tqdm import tqdm
 
+import eval
+
 def cull_scan(scan, mesh_path, result_mesh_file, instance_dir):
     
     # load poses
