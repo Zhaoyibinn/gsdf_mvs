@@ -263,11 +263,13 @@ def main_eval(args_eval):
     data_in = data_down[inbound]
 
     data_grid = np.around((data_in - BB[:1]) / Res).astype(np.int32)
+    # 体素化的data（没有体素下采样）
     grid_inbound = ((data_grid >= 0) & (data_grid < np.expand_dims(ObsMask.shape, 0))).sum(axis=-1) ==3
     data_grid_in = data_grid[grid_inbound]
+    # 体素化之后还在bbox里面
     in_obs = ObsMask[data_grid_in[:,0], data_grid_in[:,1], data_grid_in[:,2]].astype(np.bool_)
     data_in_obs = data_in[grid_inbound][in_obs]
-
+    # 体素化之后还在mask（先验）里面
     pbar.update(1)
     pbar.set_description('read STL pcd')
     stl_pcd = o3d.io.read_point_cloud(f'{args.dataset_dir}/Points/stl/stl{int(args.scan):03}_total.ply')
@@ -301,8 +303,14 @@ def main_eval(args_eval):
     W = np.array([[1,1,1]], dtype=np.float64)
     data_color = np.tile(B, (data_down.shape[0], 1))
     data_alpha = dist_d2s.clip(max=vis_dist) / vis_dist
+    # vis_dist为预先定义好的参数，用来限制最大距离，同时除以vis_dist得到为最大距离的百分之多少
     data_color[ np.where(inbound)[0][grid_inbound][in_obs] ] = R * data_alpha + W * (1-data_alpha)
+    # 在计算范围内的点会被绘制成红色，并且距离越远越深
     data_color[ np.where(inbound)[0][grid_inbound][in_obs][dist_d2s[:,0] >= max_dist] ] = G
+    # 实在太大的点会被绘制成绿色
+    # 不计算的点为蓝色
+
+
     write_vis_pcd(f'{args.vis_out_dir}/vis_{int(args.scan):03}_d2s.ply', data_down, data_color)
     stl_color = np.tile(B, (stl.shape[0], 1))
     stl_alpha = dist_s2d.clip(max=vis_dist) / vis_dist

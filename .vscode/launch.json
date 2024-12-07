@@ -66,9 +66,9 @@
             "pythonPath":"/home/zhaoyibin/anaconda3/envs/surfel_splatting/bin/python",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--input_mesh","output/scan24/sparse_15000/point_cloud.ply",
+            "args": ["--input_mesh","output/scan24/mvs_15000/point_cloud.ply",
                     "--scan_id","24",
-                    "--output_dir","eval_2dgs/eval_data/scan24_gsdf_sparse_15000",
+                    "--output_dir","eval_2dgs/eval_data/scan24_gsdf_mvs_15000",
                     "--mask_dir","data/DTU",
                     "--DTU","data/DTU"]
             // "cwd": "${workspaceFolder}/taichi_decoupled"
@@ -81,9 +81,9 @@
             "pythonPath":"/home/zhaoyibin/anaconda3/envs/surfel_splatting/bin/python",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--input_mesh","output/scan24/sparse_15000/it30000-mc1024.ply",
+            "args": ["--input_mesh","output/scan24/mvs_15000/it30000-mc1024.ply",
                     "--scan_id","24",
-                    "--output_dir","eval_2dgs/eval_data/scan24_gsdf_sparse_15000",
+                    "--output_dir","eval_2dgs/eval_data/scan24_gsdf_mvs_15000",
                     "--mask_dir","data/DTU",
                     "--DTU","data/DTU"]
             // "cwd": "${workspaceFolder}/taichi_decoupled"
